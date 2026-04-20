@@ -86,6 +86,9 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-btn:hover {
@@ -255,7 +258,7 @@
             opacity: 0.7; 
             transition: 0.3s; 
             cursor: default;
-            white-space: nowrap; /* Metinlerin kırılmasını (alt satıra geçmesini) engeller */
+            white-space: nowrap; 
         }
 
         .footer-left p:hover {
@@ -307,8 +310,8 @@
             Yardim
         </a>
         <nav class="nav-links">
-            <a href="#" class="nav-btn">Commands (editing)</a>
-            <a href="status.html" class="nav-btn">Status Panel</a>
+            <a href="#" class="nav-btn"><i class="fa-solid fa-terminal"></i> Commands (editing)</a>
+            <a href="status.html" class="nav-btn"><i class="fa-solid fa-server"></i> Status Panel</a>
         </nav>
     </header>
 
