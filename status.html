@@ -135,7 +135,7 @@
 
         <div class="status-container" style="display: flex; justify-content: center; margin-bottom: 30px;">
             <div id="fluxer-status" style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 35px; background: rgba(255, 255, 255, 0.06); color: #ffffff; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 1.1rem; font-weight: 700; z-index: 5; transition: 0.3s;" onmouseover="this.style.borderColor='#ffffff'; this.style.background='rgba(255, 255, 255, 0.1)'; " onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.background='rgba(255, 255, 255, 0.06)';">
-                <div class="online-dot"></div>
+                <div id="status-dot" class="online-dot"></div>
                 Fluxer: Checking...
             </div>
         </div>
@@ -162,7 +162,19 @@
                     document.getElementById('loc-val').innerText = locationName;
                 }
                 
-                document.getElementById('fluxer-status').innerHTML = `<div class="online-dot"></div> Fluxer: ${data.fluxer_status}`;
+                // Durum kontrolü ve nokta rengi düzenleme
+                const statusDot = document.getElementById('status-dot');
+                const statusText = data.fluxer_status;
+                
+                if (statusText === "Online") {
+                    statusDot.style.background = "#2ecc71";
+                    statusDot.style.boxShadow = "0 0 8px #2ecc71";
+                } else {
+                    statusDot.style.background = "#ff4d4d";
+                    statusDot.style.boxShadow = "0 0 8px #ff4d4d";
+                }
+                
+                document.getElementById('fluxer-status').innerHTML = `<div id="status-dot" class="online-dot" style="background:${statusDot.style.background}; box-shadow:${statusDot.style.boxShadow};"></div> Fluxer: ${statusText}`;
                 
             } catch (error) {
                 document.getElementById('fluxer-status').innerHTML = `<div class="online-dot" style="background:#ff4d4d; box-shadow:0 0 8px #ff4d4d;"></div> Fluxer: Offline`;
