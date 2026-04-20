@@ -40,7 +40,7 @@
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 50px 40px;
+            padding: 40px;
             border-radius: 35px;
             width: 90%;
             max-width: 650px;
@@ -48,6 +48,15 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.7);
             position: relative;
             z-index: 1;
+        }
+
+        .bot-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            object-fit: cover;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 30px; letter-spacing: -1px; }
@@ -89,6 +98,17 @@
     <div class="bg-glow"></div>
 
     <div class="glass-panel">
+        <img src="" alt="" class="">
+        
+        <div class="hero-card">
+            <div class="avatar-container">
+                <img src="https://i.ibb.co/VpqK26mh/Yard-m-Profile-Picture.png" 
+                     alt="Bot Avatar" 
+                     class="bot-avatar" 
+                     style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border: none;">
+            </div>
+        </div>
+        
         <h1>System Status</h1>
         
         <div class="stats-grid">
