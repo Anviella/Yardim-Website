@@ -237,6 +237,19 @@
                 const response = await fetch('https://yardim-production.up.railway.app/api/status');
                 const data = await response.json();
 
+                // Veriyi API'den aldığın satırın altını böyle düzenle:
+let rawLocation = data.location; 
+
+// 1. Önce virgül varsa virgülden sonrasını atar
+let cleanLocation = rawLocation.split(',')[0];
+
+// 2. REGEX kullanarak: Sadece harf ve boşlukları tutar, 
+// bayrak kodlarını (emoji parçalarını) ve sembolleri siler.
+cleanLocation = cleanLocation.replace(/[^a-zA-Z\s]/g, '').trim();
+
+// Ekrana bas
+document.getElementById('loc-val').innerText = cleanLocation;
+
                 // DİKKAT: Burası senin istediğin düzenlemeyi yapan yer
                 // Eğer veri "Eastern US, US" gelirse sadece "Eastern US" kısmını alır
                 let locationText = data.location;
