@@ -238,6 +238,7 @@
             background: rgba(255, 255, 255, 0.15); 
             border-color: #ffffff; 
             transform: translateY(-5px); 
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
         /* --- FOOTER --- */
@@ -249,6 +250,29 @@
         }
 
         .footer-left p { margin: 0; line-height: 1.2; color: #777; font-size: 0.85rem; }
+
+        /* Yeni Footer Buton Stili */
+        .footer-contact-btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-contact-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -310,20 +334,17 @@
     <footer>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div class="footer-left">
-                <p style="font-size: 16px; color: #ffffff; opacity: 10; transition: 0.3s; cursor: default;">
+                <p style="font-size: 16px; color: #ffffff; opacity: 1; transition: 0.3s; cursor: default;">
                     © 2026 All Rights Reserved.
                 </p>
-                <p style="font-weight:500; font-size: 16px; color: #ffffff; opacity: 10; transition: 0.3s; cursor: default;">
+                <p style="font-weight:500; font-size: 16px; color: #ffffff; opacity: 1; transition: 0.3s; cursor: default;">
                     Powered by the Fluxer App.
                 </p>
             </div>
             
             <div style="display:flex; gap:15px; align-items:center;">
-                <a href="https://fluxer.app">
-                    <img src="https://i.ibb.co/Xr5mv53q/fluxer-symbol-white.png" alt="Fluxer Logo" style="width: 21px; height: 21px; object-fit: contain; opacity: 10; transition: 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.4'">
-                </a>
-                <a href="#" style="color:#ffffff; font-size: 21px; opacity: 10; transition: 0.3s; text-decoration: none;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.4'">
-                    <i class="fa-brands fa-discord"></i>
+                <a href="mailto:support@yourdomain.com" class="footer-contact-btn">
+                    <i class="fa-solid fa-envelope"></i> Contact Us
                 </a>
             </div>
         </div>
