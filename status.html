@@ -153,26 +153,44 @@
     <script>
 async function updateStatus() {
     try {
-        // 'BOT_URL' yerine botunun çalıştığı adresi (örn: https://bot-api.render.com) yazmalısın
-        const response = await fetch('https://BOT_URL_ADRESIN/api/status');
+        // BURAYI DEĞİŞTİR: Botunun gerçek API linkini buraya yaz
+        const API_URL = 'https://yardim-production.up.railway.app/api/status'; 
+        
+        const response = await fetch(API_URL);
         const data = await response.json();
 
-        // HTML elementlerini verilerle güncelle
-        document.getElementById('ticket-count').innerText = data.openedTickets;
-        document.getElementById('uptime').innerText = data.uptime;
-        document.getElementById('latency').innerText = data.latency;
+        // Kartlardaki değerleri güncelle
+        document.getElementById('latency-val').innerText = data.latency;
+        document.getElementById('ram-val').innerText = data.ramUsage;
+        document.getElementById('uptime-val').innerText = data.uptime;
+        document.getElementById('tickets-opened').innerText = data.openedTickets;
         
-        // Fluxer durumuna göre renk değiştirme
+        // Konum verisi (API'den gelmiyorsa sabit kalabilir veya ekleyebilirsin)
+        document.getElementById('loc-val').innerText = data.location || "Germany";
+
+        // Fluxer durum metni ve noktası
         const statusDot = document.getElementById('status-dot');
-        statusDot.style.backgroundColor = data.fluxer_status === "Online" ? "#2ecc71" : "#e74c3c";
+        const statusText = document.getElementById('fluxer-status');
+        
+        if (data.fluxer_status === "Online") {
+            statusDot.style.backgroundColor = "#2ecc71";
+            statusDot.style.boxShadow = "0 0 10px #2ecc71";
+            statusText.childNodes[2].nodeValue = " Fluxer: Online";
+        } else {
+            statusDot.style.backgroundColor = "#e74c3c";
+            statusDot.style.boxShadow = "0 0 10px #e74c3c";
+            statusText.childNodes[2].nodeValue = " Fluxer: Offline";
+        }
         
     } catch (error) {
         console.error("Veri çekilirken hata oluştu:", error);
+        document.getElementById('fluxer-status').childNodes[2].nodeValue = " Fluxer: Error";
     }
 }
 
-// Sayfa açıldığında ve her 30 saniyede bir güncelle
+// Sayfa açıldığında çalıştır
 updateStatus();
+// Her 30 saniyede bir verileri tazele
 setInterval(updateStatus, 30000);
 </script>
 </body>
