@@ -131,6 +131,14 @@
                 <span id="uptime-val" style="font-size: 1.4rem; font-weight: 900; color: #ffffff; text-shadow: 0 0 15px rgba(255,255,255,0.2);">...</span>
                 <span style="font-size: 0.90rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 5px; font-weight: 600;">Uptime</span>
             </div>
+            <div class="stat-card" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 22px;" onmouseover="this.style.borderColor='#ffffff';" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.1)';">
+                <span id="tickets-opened" style="font-size: 1.4rem; font-weight: 900; color: #ffffff; text-shadow: 0 0 15px rgba(255,255,255,0.2);">...</span>
+                <span style="font-size: 0.90rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 5px; font-weight: 600;">Opened Tickets</span>
+            </div>
+            <div class="stat-card" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 22px;" onmouseover="this.style.borderColor='#ffffff';" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.1)';">
+                <span id="tickets-closed" style="font-size: 1.4rem; font-weight: 900; color: #ffffff; text-shadow: 0 0 15px rgba(255,255,255,0.2);">...</span>
+                <span style="font-size: 0.90rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 5px; font-weight: 600;">Closed Tickets</span>
+            </div>
         </div>
 
         <div class="status-container" style="display: flex; justify-content: center; margin-bottom: 30px;">
@@ -148,55 +156,53 @@
     <script>
         <script>
 async function updateStats() {
-    try {
-        const response = await fetch('https://yardim-production.up.railway.app/api/status');
-        const data = await response.json();
+    try {
+        const response = await fetch('https://yardim-production.up.railway.app/api/status');
+        const data = await response.json();
 
-        // Mevcut Sistem Bilgileri
-        document.getElementById('latency-val').innerText = data.latency;
-        document.getElementById('ram-val').innerText = data.ramUsage;
-        document.getElementById('uptime-val').innerText = data.uptime;
+        // Mevcut Sistem Bilgileri
+        document.getElementById('latency-val').innerText = data.latency;
+        document.getElementById('ram-val').innerText = data.ramUsage;
+        document.getElementById('uptime-val').innerText = data.uptime;
 
-        // Konum ve Bayrak Güncelleme
-        let locationName = data.location || "Unknown";
-        if (locationName.includes("USA") || locationName.includes("United States")) {
-            document.getElementById('loc-val').innerText = locationName + " 🇺🇸";
-        } else if (locationName.includes("TR") || locationName.includes("Turkey")) {
-            document.getElementById('loc-val').innerText = locationName + " 🇹🇷";
-        } else {
-            document.getElementById('loc-val').innerText = locationName;
-        }
+        // Konum ve Bayrak Güncelleme
+        let locationName = data.location || "Unknown";
+        if (locationName.includes("USA") || locationName.includes("United States")) {
+            document.getElementById('loc-val').innerText = locationName + " 🇺🇸";
+        } else if (locationName.includes("TR") || locationName.includes("Turkey")) {
+            document.getElementById('loc-val').innerText = locationName + " 🇹🇷";
+        } else {
+            document.getElementById('loc-val').innerText = locationName;
+        }
 
-        // --- TİCKET VE SUNUCU İSTATİSTİKLERİ ---
-        
-        // Sunucu Sayısı
-        const serverElem = document.getElementById('server-count');
-        if (serverElem && data.serverCount !== undefined) {
-            serverElem.innerText = data.serverCount + "+";
-        }
+        // --- YENİ: Ticket ve Sunucu İstatistikleri ---
+        
+        // Sunucu Sayısı (ID: server-count olan element için)
+        if (document.getElementById('server-count') && data.serverCount !== undefined) {
+            document.getElementById('server-count').innerText = data.serverCount + "+";
+        }
 
-        // Açılan Ticket Sayısı
-        const openedElem = document.getElementById('tickets-opened');
-        if (openedElem && data.openedTickets !== undefined) {
-            openedElem.innerText = data.openedTickets + "+";
-        }
+        // Açılan Ticket Sayısı (ID: tickets-opened olan element için)
+        if (document.getElementById('tickets-opened') && data.openedTickets !== undefined) {
+            document.getElementById('tickets-opened').innerText = data.openedTickets + "+";
+        }
 
-        // Kapanan Ticket Sayısı
-        const closedElem = document.getElementById('tickets-closed');
-        if (closedElem && data.closedTickets !== undefined) {
-            closedElem.innerText = data.closedTickets + "+";
-        }
+        // Kapanan Ticket Sayısı (ID: tickets-closed olan element için)
+        if (document.getElementById('tickets-closed') && data.closedTickets !== undefined) {
+            document.getElementById('tickets-closed').innerText = data.closedTickets + "+";
+        }
 
-    } catch (error) {
-        console.error("İstatistikler güncellenirken hata oluştu:", error);
-    }
+    } catch (error) {
+        console.error("İstatistikler güncellenirken hata oluştu:", error);
+    }
 }
 
-// Sayfa yüklendiğinde çalıştır
+// Sayfa yüklendiğinde bir kez çalıştır
 updateStats();
 
-// Her 30 saniyede bir verileri otomatik yenile
+// Her 30 saniyede bir verileri otomatik yenile (Canlı Takip)
 setInterval(updateStats, 30000);
-</script>
+    </script>
+
 </body>
 </html>
