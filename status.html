@@ -57,21 +57,7 @@
             border-radius: 50%;
             border: 3px solid #ffffff;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-            margin-bottom: 10px;
-        }
-
-        /* Application Status Badge */
-        .app-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
         }
 
         h1 { font-size: 2.2rem; font-weight: 900; margin-bottom: 25px; letter-spacing: -1px; }
@@ -81,6 +67,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-bottom: 30px;
+            justify-items: center; /* Kartları grid içerisinde ortalar */
         }
 
         .stat-card {
@@ -92,11 +79,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%; /* Kartların genişliğini eşitler */
         }
 
-        /* Opened Tickets kartını ortalamak için */
-        .stat-card.full-width {
-            grid-column: span 2;
+        /* Opened Tickets kartını alt satırda ortalamak için */
+        .stat-card.centered-last {
+            grid-column: 1 / span 2;
+            max-width: calc(50% - 7.5px); /* Diğer kartlarla aynı genişlikte olması için */
         }
 
         .stat-card:hover { 
@@ -131,10 +120,6 @@
             <div class="avatar-container">
                 <img src="https://i.ibb.co/VpqK26mh/Yard-m-Profile-Picture.png" alt="Bot Avatar" class="bot-avatar">
             </div>
-            <div class="app-status-badge">
-                <div id="app-dot" class="online-dot" style="background-color: #7f8c8d; box-shadow: none;"></div>
-                <span id="app-status-text">Application: Checking...</span>
-            </div>
         </div>
         
         <h1>System Status</h1>
@@ -160,7 +145,7 @@
                 <span class="stat-label">Uptime</span>
             </div>
             
-            <div class="stat-card full-width">
+            <div class="stat-card centered-last">
                 <span id="tickets-opened" class="stat-val">...</span>
                 <span class="stat-label">Opened Tickets</span>
             </div>
@@ -180,32 +165,22 @@
 
 <script>
 async function updateStatus() {
-    const appDot = document.getElementById('app-dot');
-    const appText = document.getElementById('app-status-text');
     const fluxDot = document.getElementById('status-dot');
     const fluxStatusBox = document.getElementById('fluxer-status');
 
     try {
         const API_URL = 'https://yardim-production.up.railway.app/api/status'; 
         const response = await fetch(API_URL);
-        
-        if (!response.ok) throw new Error("Offline");
-
         const data = await response.json();
 
-        // 1. Application Status (Üstteki Badge)
-        appDot.style.backgroundColor = "#2ecc71";
-        appDot.style.boxShadow = "0 0 10px #2ecc71";
-        appText.innerText = "Application: Online";
-
-        // 2. İstatistikleri Güncelle
+        // İstatistikleri Güncelle
         document.getElementById('latency-val').innerText = data.latency || "0ms";
         document.getElementById('ram-val').innerText = data.ramUsage || "0MB";
         document.getElementById('uptime-val').innerText = data.uptime || "0h";
         document.getElementById('tickets-opened').innerText = data.openedTickets || "0";
         document.getElementById('loc-val').innerText = data.location || "Germany";
 
-        // 3. Fluxer Durumu (Alttaki Kutu)
+        // Fluxer Durumu
         if (data.fluxer_status === "Online") {
             fluxDot.style.backgroundColor = "#2ecc71";
             fluxDot.style.boxShadow = "0 0 10px #2ecc71";
@@ -218,16 +193,9 @@ async function updateStatus() {
         
     } catch (error) {
         console.error("Hata:", error);
-        
-        // Hata durumunda her şeyi offline çek
-        appDot.style.backgroundColor = "#e74c3c";
-        appDot.style.boxShadow = "0 0 10px #e74c3c";
-        appText.innerText = "Application: Offline";
-        
         fluxDot.style.backgroundColor = "#e74c3c";
         fluxStatusBox.childNodes[2].nodeValue = " Fluxer: Offline";
         
-        // Değerleri sıfırla/hata göster
         const vals = ['latency-val', 'ram-val', 'uptime-val', 'tickets-opened', 'loc-val'];
         vals.forEach(id => document.getElementById(id).innerText = "ERR");
     }
