@@ -167,7 +167,7 @@ async function updateStats() {
         let locationName = data.location || "Eastern US";
         let locElement = document.getElementById('loc-val');
         if (locationName.includes("US") || locationName.includes("United States")) {
-            locElement.innerText = "USA 🇺🇸";
+            locElement.innerText = "Eastern US";
         } else if (locationName.includes("TR") || locationName.includes("Turkey")) {
             locElement.innerText = "Turkey 🇹🇷";
         } else {
