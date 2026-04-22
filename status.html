@@ -68,6 +68,7 @@
             gap: 15px;
             margin-bottom: 30px;
             justify-items: center;
+            align-items: stretch; /* Kart boylarını eşitler */
         }
 
         .stat-card {
@@ -78,13 +79,15 @@
             transition: 0.3s;
             display: flex;
             flex-direction: column;
+            justify-content: center; /* İçerikleri dikeyde ortalar */
             align-items: center;
             width: 100%;
+            min-height: 110px; /* Bütün kartların aynı hizada durmasını sağlar */
         }
 
         .stat-card.centered-last {
             grid-column: 1 / span 2;
-            max-width: calc(50% - 7.5px);
+            max-width: 100%;
         }
 
         .stat-card:hover { 
@@ -92,7 +95,7 @@
             border-color: #ffffff;
         }
         
-        .stat-val { font-size: 1.4rem; font-weight: 900; color: #ffffff; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
+        .stat-val { font-size: 1.4rem; font-weight: 900; color: #ffffff; text-shadow: 0 0 15px rgba(255,255,255,0.2); line-height: 1.2; }
         .stat-label { font-size: 0.85rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 5px; font-weight: 600; }
 
         .online-dot {
@@ -165,17 +168,14 @@
 <script>
     async function updateStatus() {
         try {
-            // Railway URL'niz
             const response = await fetch('https://yardim-production.up.railway.app/api/status');
             const data = await response.json();
 
-            // Temel verileri HTML'e yazdır
             document.getElementById('latency-val').innerText = data.latency || "...";
             document.getElementById('ram-val').innerText = data.ramUsage || "...";
             document.getElementById('loc-val').innerText = data.location || "...";
             document.getElementById('uptime-val').innerText = data.uptime || "...";
             
-            // Fluxer durum metni ve noktası (Online/Offline)
             const statusText = document.getElementById('fluxer-status');
             if (data.status === "Online") {
                 statusText.innerHTML = `<div id="status-dot" class="online-dot"></div> Fluxer: Online`;
@@ -183,7 +183,6 @@
                 statusText.innerHTML = `<div id="status-dot" class="online-dot" style="background-color: #ff4757; box-shadow: 0 0 8px #ff4757;"></div> Fluxer: Offline`;
             }
 
-            // Bilet Sayısı Kontrolü (0 olsa bile gösterir)
             const ticketsElement = document.getElementById('tickets-opened');
             if (data.tickets !== undefined && data.tickets !== null) {
                 ticketsElement.innerText = data.tickets;
@@ -194,12 +193,10 @@
         } catch (error) {
             console.error("Bot API'sine ulaşılamadı:", error);
             document.getElementById('fluxer-status').innerHTML = `<div id="status-dot" class="online-dot" style="background-color: #ff4757;"></div> Connection Error`;
-            // Hata durumunda değerleri temizle
             document.getElementById('tickets-opened').innerText = "ERR";
         }
     }
 
-    // Sayfa açıldığında ve her 30 saniyede bir güncelle
     updateStatus();
     setInterval(updateStatus, 30000);
 </script>
