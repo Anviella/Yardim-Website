@@ -14,18 +14,36 @@
 
         .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); padding: 40px; border-radius: 35px; width: 100%; max-width: 1000px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.7); position: relative; z-index: 1; }
         
-        /* Ortalanmış Tek Avatar ve Beyaz Neon Halkası */
-        .main-avatar-container { position: relative; width: 100px; height: 100px; margin: 0 auto 30px; display: flex; justify-content: center; align-items: center; }
-        .main-bot-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
+        /* Ortalanmış Avatar ve Beyaz Neon Halka */
+        .main-avatar-container { position: relative; width: 100px; height: 100px; margin: 0 auto 40px; }
+        .main-bot-avatar { 
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover; 
+            border: 2px solid #ffffff; 
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.5); 
+        }
 
-        /* Sütun Yapısı */
-        .commands-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 10px; align-items: stretch; }
-        
-        .column-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; display: block; opacity: 0.9; }
+        /* Milimetrik Hizalama İçin Grid Yapısı */
+        .commands-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 40px; 
+            margin-top: 10px;
+        }
 
-        .command-list { display: flex; flex-direction: column; gap: 15px; height: 100%; }
+        .column-title { 
+            font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; 
+            color: #ffffff; text-transform: uppercase; letter-spacing: 2px; 
+            display: block; opacity: 0.9;
+        }
+
+        /* Alt alta olan butonların yüksekliğini eşitleyen iç grid */
+        .command-list { 
+            display: grid;
+            grid-template-rows: auto repeat(4, 1fr); /* Başlık + 4 Eşit Satır */
+            gap: 15px;
+        }
         
-        /* Eşit Hizalanmış Komut Kutuları */
+        /* Buton Stili (Diğer sayfalarla aynı) */
         .command-item { 
             background: rgba(255, 255, 255, 0.03); 
             border: 1px solid rgba(255, 255, 255, 0.08); 
@@ -36,25 +54,25 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 110px; /* Kutuların minimum boyunu sabitleyerek hizayı korur */
+            cursor: pointer;
         }
         
-        /* Beyaz Çerçeve ve Parlama Efekti */
+        /* Mouse Getirince Parlayan Beyaz Çerçeve */
         .command-item:hover { 
             background: rgba(255, 255, 255, 0.1); 
             border-color: #ffffff; 
             transform: translateY(-5px); 
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
         
-        .cmd-name { color: #ffffff; font-weight: 800; font-size: 1.1rem; margin-bottom: 8px; display: block; }
+        .cmd-name { color: #ffffff; font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; display: block; }
         .cmd-desc { color: #b0b0b0; font-size: 0.9rem; line-height: 1.4; }
 
         /* Geri Dön Butonu */
         .btn-container { margin-top: 40px; z-index: 1; }
         .back-link { 
-            padding: 15px 35px; border-radius: 15px; font-weight: 700; text-decoration: none; transition: 0.3s; 
-            display: inline-flex; align-items: center; gap: 12px;
+            padding: 15px 35px; border-radius: 15px; font-weight: 700; text-decoration: none; 
+            transition: 0.3s; display: inline-flex; align-items: center; gap: 12px;
             background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255, 255, 255, 0.1); 
         }
         .back-link:hover { 
@@ -64,6 +82,7 @@
 
         @media (max-width: 768px) {
             .commands-grid { grid-template-columns: 1fr; }
+            .command-list { grid-template-rows: auto; } /* Mobilde otomatik yükseklik */
         }
     </style>
 </head>
@@ -88,11 +107,11 @@
                 </div>
                 <div class="command-item">
                     <span class="cmd-name">?durum-paneli</span>
-                    <p class="cmd-desc">Botun ve servislerin çalışma durumunu gösteren panele yönlendirir.</p>
+                    <p class="cmd-desc">Servislerin durumunu gösteren panele yönlendirir.</p>
                 </div>
                 <div class="command-item">
                     <span class="cmd-name">?kurulum</span>
-                    <p class="cmd-desc">Destek sistemini sunucunuza entegre etmek için adımları başlatır.</p>
+                    <p class="cmd-desc">Destek sistemini sunucunuza entegre etmenizi sağlar.</p>
                 </div>
             </div>
 
@@ -108,11 +127,11 @@
                 </div>
                 <div class="command-item">
                     <span class="cmd-name">?status-panel</span>
-                    <p class="cmd-desc">Sends a direct link to check real-time status of our services.</p>
+                    <p class="cmd-desc">Sends a direct link to check real-time service status.</p>
                 </div>
                 <div class="command-item">
                     <span class="cmd-name">?setup</span>
-                    <p class="cmd-desc">Guides you through the process of setting up the Support System.</p>
+                    <p class="cmd-desc">Guides you through the Support System setup process.</p>
                 </div>
             </div>
         </div>
