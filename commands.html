@@ -7,19 +7,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0a0a; color: #ffffff; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow-x: hidden; position: relative; padding: 60px 20px; }
+        body { background: #0a0a0a; color: #ffffff; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-x: hidden; position: relative; padding: 60px 20px; }
         
         .bg-glow { position: fixed; width: 700px; height: 700px; background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, rgba(0, 210, 255, 0) 70%); filter: blur(100px); z-index: 0; animation: moveGlow 15s infinite alternate ease-in-out; }
         @keyframes moveGlow { 0% { transform: translate(-30%, -30%); } 100% { transform: translate(30%, 30%); } }
 
         .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); padding: 40px; border-radius: 35px; width: 100%; max-width: 1000px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.7); position: relative; z-index: 1; }
         
-        h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 40px; letter-spacing: -1px; }
+        /* Avatar ve Halka Tasarımı */
+        .avatar-container { position: relative; width: 80px; height: 80px; margin: 0 auto 15px; }
+        .bot-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
 
-        /* Yan yana sütun yapısı */
-        .commands-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        /* Sütun Yapısı */
+        .commands-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
         
-        .column-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; color: #ffffff; opacity: 0.8; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid rgba(0, 210, 255, 0.3); display: inline-block; padding-bottom: 5px; }
+        .column-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; color: #ffffff; text-transform: uppercase; letter-spacing: 1.5px; display: block; }
 
         .command-list { display: flex; flex-direction: column; gap: 15px; text-align: left; }
         .command-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 15px; border-radius: 18px; transition: 0.3s; }
@@ -28,10 +30,18 @@
         .cmd-name { color: #00d2ff; font-weight: 800; font-size: 1.05rem; margin-bottom: 5px; display: block; }
         .cmd-desc { color: #b0b0b0; font-size: 0.9rem; line-height: 1.4; }
 
-        .back-btn { margin-top: 20px; display: inline-block; padding: 12px 25px; border-radius: 12px; font-weight: 700; text-decoration: none; color: white; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s; }
-        .back-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; transform: translateY(-3px); }
+        /* Buton Tasarımı (Ana sayfa ile aynı) */
+        .btn-container { margin-top: 40px; z-index: 1; }
+        .btn-secondary { 
+            padding: 16px 30px; border-radius: 14px; font-weight: 700; text-decoration: none; transition: 0.3s; 
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        .btn-secondary:hover { 
+            background: rgba(255, 255, 255, 0.15); border-color: #ffffff; 
+            transform: translateY(-5px); box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); 
+        }
 
-        /* Mobil uyumluluk: Ekran küçülünce sütunları alt alta getirir */
         @media (max-width: 768px) {
             .commands-grid { grid-template-columns: 1fr; }
         }
@@ -39,12 +49,14 @@
 </head>
 <body>
     <div class="bg-glow"></div>
+
     <div class="glass-panel">
-        <h1>Komutlar      |      Commands</h1>
-        
         <div class="commands-grid">
             <div>
-                <div class="column-title"><i class="fa-solid"></i> Türkçe Komutlar</div>
+                <div class="avatar-container">
+                    <img src="https://i.ibb.co/VpqK26mh/Yard-m-Profile-Picture.png" alt="Bot Avatar" class="bot-avatar">
+                </div>
+                <span class="column-title">Türkçe Komutlar</span>
                 <div class="command-list">
                     <div class="command-item">
                         <span class="cmd-name">?yardim</span>
@@ -66,7 +78,10 @@
             </div>
 
             <div>
-                <div class="column-title"><i class="fa-solid"></i> English Commands</div>
+                <div class="avatar-container">
+                    <img src="https://i.ibb.co/VpqK26mh/Yard-m-Profile-Picture.png" alt="Bot Avatar" class="bot-avatar">
+                </div>
+                <span class="column-title">English Commands</span>
                 <div class="command-list">
                     <div class="command-item">
                         <span class="cmd-name">?info</span>
@@ -87,5 +102,13 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="btn-container">
+        <a href="index.html" class="btn-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Back to Main Page
+        </a>
+    </div>
+
 </body>
 </html>
