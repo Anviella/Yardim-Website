@@ -165,43 +165,42 @@
 <script>
     async function updateStatus() {
         try {
-            // BURAYI DEĞİŞTİR: Kendi Railway URL'ni (sonunda /api/status olacak şekilde) buraya yapıştır
+            // Railway URL'niz
             const response = await fetch('https://yardim-production.up.railway.app/api/status');
             const data = await response.json();
 
-            // HTML'deki id'ler ile API'den gelen verileri eşleştiriyoruz
-            document.getElementById('latency-val').innerText = data.latency;
-            document.getElementById('ram-val').innerText = data.ramUsage;
-            document.getElementById('loc-val').innerText = data.location;
-            document.getElementById('uptime-val').innerText = data.uptime;
+            // Temel verileri HTML'e yazdır
+            document.getElementById('latency-val').innerText = data.latency || "...";
+            document.getElementById('ram-val').innerText = data.ramUsage || "...";
+            document.getElementById('loc-val').innerText = data.location || "...";
+            document.getElementById('uptime-val').innerText = data.uptime || "...";
             
-            // Fluxer durum metni ve noktası
+            // Fluxer durum metni ve noktası (Online/Offline)
             const statusText = document.getElementById('fluxer-status');
-            const statusDot = document.getElementById('status-dot');
-            
             if (data.status === "Online") {
                 statusText.innerHTML = `<div id="status-dot" class="online-dot"></div> Fluxer: Online`;
             } else {
                 statusText.innerHTML = `<div id="status-dot" class="online-dot" style="background-color: #ff4757; box-shadow: 0 0 8px #ff4757;"></div> Fluxer: Offline`;
             }
 
-            // Eğer bilet sayısını da gönderiyorsan (API'ye eklediysen):
-            if(data.tickets) {
-                document.getElementById('tickets-opened').innerText = data.tickets;
+            // Bilet Sayısı Kontrolü (0 olsa bile gösterir)
+            const ticketsElement = document.getElementById('tickets-opened');
+            if (data.tickets !== undefined && data.tickets !== null) {
+                ticketsElement.innerText = data.tickets;
             } else {
-                document.getElementById('tickets-opened').innerText = "N/A";
+                ticketsElement.innerText = "N/A";
             }
 
         } catch (error) {
             console.error("Bot API'sine ulaşılamadı:", error);
-            // Hata durumunda kullanıcıya bilgi ver
-            document.getElementById('fluxer-status').innerText = "Connection Error";
+            document.getElementById('fluxer-status').innerHTML = `<div id="status-dot" class="online-dot" style="background-color: #ff4757;"></div> Connection Error`;
+            // Hata durumunda değerleri temizle
+            document.getElementById('tickets-opened').innerText = "ERR";
         }
     }
 
-    // Sayfa açıldığında çalıştır
+    // Sayfa açıldığında ve her 30 saniyede bir güncelle
     updateStatus();
-    // Her 30 saniyede bir verileri tazele
     setInterval(updateStatus, 30000);
 </script>
 </body>
